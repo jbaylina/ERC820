@@ -1,0 +1,52 @@
+{
+  "name": "eip820",
+  "version": "0.0.3",
+  "description": "EIP 820 - Pseudo-introspaection using a registry contract",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "npm run build; mocha --harmony --exit",
+    "sol-compile": "solcpiler -i './contracts/*.sol'",
+    "build": "npm run sol-compile",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Giveth/yogatoken.git"
+  },
+  "keywords": [
+    "solidity",
+    "pseudo-introspaection",
+    "eip672",
+    "eip820",
+    "smart",
+    "contract",
+    "reverseENS",
+    "ethereum"
+  ],
+  "author": "Jordi Baylina",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/jbaylina/eip672/issues"
+  },
+  "homepage": "https://github.com/jbaylina/eip672",
+  "dependencies": {
+    "eth-contract-class": "0.0.6"
+  },
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.6.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.1.0",
+    "ethereumjs-testrpc": "git://github.com/jbaylina/testrpc.git",
+    "lerna": "^2.2.0",
+    "random-bytes": "^1.0.0",
+    "mocha": "^3.5.0",
+    "solcpiler": "0.0.6",
+    "web3": "git://github.com/perissology/web3.js.git#all_fixes",
+    "chai": "^4.1.0"
+  }
+}
