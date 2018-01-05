@@ -33,20 +33,16 @@
   },
   "homepage": "https://github.com/jbaylina/eip672",
   "dependencies": {
-    "eth-contract-class": "0.0.6"
+    "eip672": "0.0.3",
+    "ethereumjs-tx": "^1.3.3",
+    "ethereumjs-util": "^5.1.3",
+    "lerna": "^2.5.1",
+    "web3": "^1.0.0-beta.26"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "eslint-config-airbnb": "^15.0.1",
-    "eslint-plugin-import": "^2.6.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.1.0",
+    "chai": "^4.1.2",
     "ethereumjs-testrpc": "git://github.com/jbaylina/testrpc.git",
-    "lerna": "^2.2.0",
-    "random-bytes": "^1.0.0",
-    "mocha": "^3.5.0",
-    "solcpiler": "0.0.6",
-    "web3": "git://github.com/perissology/web3.js.git#all_fixes",
-    "chai": "^4.1.0"
+    "mocha": "^4.1.0",
+    "solcpiler": "0.0.10"
   }
 }
