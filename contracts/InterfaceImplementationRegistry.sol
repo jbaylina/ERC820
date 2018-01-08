@@ -10,7 +10,7 @@ contract InterfaceImplementationRegistry {
         _;
     }
 
-    function interfaceHash(string interfaceName) public constant returns(bytes32) {
+    function interfaceHash(string interfaceName) public pure returns(bytes32) {
         return keccak256(interfaceName);
     }
 
