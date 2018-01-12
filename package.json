@@ -1,8 +1,9 @@
 {
   "name": "eip820",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "EIP 820 - Pseudo-introspaection using a registry contract",
   "main": "index.js",
+  "files": "build",
   "directories": {
     "test": "test"
   },
