@@ -1,19 +1,40 @@
-pragma solidity ^0.4.18;
+pragma solidity 0.4.19;
 
 contract InterfaceImplementationRegistry {
 
     mapping (address => mapping(bytes32 => address)) interfaces;
-    mapping (address => address) public managers;
+    mapping (address => address) managers;
 
     modifier canManage(address addr) {
-        require(msg.sender == addr || msg.sender == managers[addr]);
+        require(getManager(addr) == msg.sender);
         _;
     }
 
+    /// @notice Query the hash of an interface given a name
+    /// @param interfaceName Name of the interfce
     function interfaceHash(string interfaceName) public pure returns(bytes32) {
         return keccak256(interfaceName);
     }
 
+    /// @notice GetManager
+    function getManager(address addr) public view returns(address) {
+        // By default the manager of an address is the same address
+        if (managers[addr] == 0) {
+            return addr;
+        } else {
+            return managers[addr];
+        }
+    }
+
+    /// @notice Sets an external `manager` that will be able to call `setInterfaceImplementer()`
+    ///  on behalf of the address.
+    /// @param addr Address that you are defining the manager for.
+    /// @param newManager The address of the manager for the `addr` that will replace
+    ///  the old one.  Set to 0x0 if you want to remove the manager.
+    function setManager(address addr, address newManager) public canManage(addr) {
+        managers[addr] = newManager == addr ? 0 : newManager;
+        ManagerChanged(addr, newManager);
+    }
 
     /// @notice Query if an address implements an interface and thru which contract
     /// @param addr Address that is being queried for the implementation of an interface
@@ -33,16 +54,6 @@ contract InterfaceImplementationRegistry {
     function setInterfaceImplementer(address addr, bytes32 iHash, address implementer) public canManage(addr)  {
         interfaces[addr][iHash] = implementer;
         InterfaceImplementerSet(addr, iHash, implementer);
-    }
-
-    /// @notice Sets an external `manager` that will be able to call `setInterfaceImplementer()`
-    ///  on behalf of the address.
-    /// @param addr Address that you are defining the manager for.
-    /// @param newManager The address of the manager for the `addr` that will replace
-    ///  the old one.  Set to 0x0 if you want to remove the manager.
-    function changeManager(address addr, address newManager) public canManage(addr) {
-        managers[addr] = newManager;
-        ManagerChanged(addr, newManager);
     }
 
     event InterfaceImplementerSet(address indexed addr, bytes32 indexed interfaceHash, address indexed implementer);

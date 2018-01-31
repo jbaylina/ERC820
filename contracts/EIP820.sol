@@ -14,6 +14,6 @@ contract EIP820 {
     }
 
     function delegateManagement(address newManager) internal {
-        interfaceImplementationRegistry.changeManager(this, newManager);
+        interfaceImplementationRegistry.setManager(this, newManager);
     }
 }

@@ -19,7 +19,7 @@ generateDeployTx = () => {
     const res = {
         sender: '0x'+tx.getSenderAddress().toString('hex'),
         rawTx: '0x'+tx.serialize().toString('hex'),
-        contractAddr: EthereumUtils.generateAddress( '0x'+tx.getSenderAddress().toString('hex') , 0 ).toString('hex')
+        contractAddr: '0x'+EthereumUtils.generateAddress( '0x'+tx.getSenderAddress().toString('hex') , 0 ).toString('hex')
     }
     return res;
 };
