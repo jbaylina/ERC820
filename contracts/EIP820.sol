@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 import "./InterfaceImplementationRegistry.sol";
 
 contract EIP820 {
-    InterfaceImplementationRegistry interfaceImplementationRegistry = InterfaceImplementationRegistry(0x94405C3223089A942B7597dB96Dc60FcA17B0E3A);
+    InterfaceImplementationRegistry interfaceImplementationRegistry = InterfaceImplementationRegistry(0xa80366843213DFBE44307c7c4Ce4BcfC7A6437E5);
 
     function setInterfaceImplementation(string ifaceLabel, address impl) internal {
         interfaceImplementationRegistry.setInterfaceImplementer(this, keccak256(ifaceLabel), impl);
