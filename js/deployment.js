@@ -1,8 +1,8 @@
 const EthereumTx = require('ethereumjs-tx');
 const EthereumUtils = require('ethereumjs-util');
 
-const code = require('../build/InterfaceImplementationRegistry.sol').InterfaceImplementationRegistryByteCode;
-const InterfaceImplementationRegistry = require('./InterfaceImplementationRegistry');
+const code = require('../build/EIP820Registry.sol').EIP820RegistryByteCode;
+const EIP820Registry = require('./EIP820Registry');
 
 generateDeployTx = () => {
     const rawTx = {
@@ -34,7 +34,7 @@ deploy = async (web3, account) => {
         await web3.eth.sendTransaction({from: account, to: res.sender, value: "100000000000000000"/* web3.utils.toWei(0.1) */});
         await web3.eth.sendSignedTransaction(res.rawTx);
     }
-    return new InterfaceImplementationRegistry(web3, res.contractAddr);
+    return new EIP820Registry(web3, res.contractAddr);
 };
 
 
