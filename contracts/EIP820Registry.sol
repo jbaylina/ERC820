@@ -1,7 +1,7 @@
 pragma solidity 0.4.19;
 
 contract EIP820ImplementerInterface {
-    function canManage(address addr, bytes32 interfaceHash) public returns(bool);
+    function canManage(address addr, bytes32 interfaceHash) view public returns(bool);
 }
 
 contract EIP820Registry {
@@ -56,7 +56,7 @@ contract EIP820Registry {
     /// @param iHash SHA3 of the name of the interface as a string
     ///  For example `web3.utils.sha3('Ierc777')` for the Ierc777
     function setInterfaceImplementer(address addr, bytes32 iHash, address implementer) public canManage(addr)  {
-        if (implementer != 0) {
+        if ((implementer != 0) && (implementer!=msg.sender)) {
             require(EIP820ImplementerInterface(implementer).canManage(addr, iHash));
         }
         interfaces[addr][iHash] = implementer;

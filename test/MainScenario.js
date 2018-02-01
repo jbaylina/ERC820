@@ -3,6 +3,7 @@ const Web3 = require('web3');
 const chai = require('chai');
 const EIP820 = require('../index.js');
 const ExampleImplementer = require("../js/ExampleImplementer.js");
+const ExampleImplementer2 = require("../js/ExampleImplementer2.js");
 
 const assert = chai.assert;
 const { utils } = Web3;
@@ -17,6 +18,7 @@ describe('EIP820 Test', () => {
     let addr;
     let proxy;
     let implementer;
+    let implementer2;
     let manager1;
     let manager2;
     let interfaceHash;
@@ -50,6 +52,11 @@ describe('EIP820 Test', () => {
     it('should deploy implementer', async () => {
         implementer = await ExampleImplementer.new(web3);
         assert.ok(implementer.$address);
+    }).timeout(20000);
+
+    it('should deploy implementer2', async () => {
+        implementer2 = await ExampleImplementer2.new(web3);
+        assert.ok(implementer2.$address);
     }).timeout(20000);
 
     it('should set an address', async () => {
