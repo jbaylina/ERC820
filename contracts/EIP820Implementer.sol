@@ -3,7 +3,7 @@ pragma solidity ^0.4.18;
 import "./EIP820Registry.sol";
 
 
-contract EIP820Implementer is EIP820ImplementerInterface {
+contract EIP820Implementer {
     EIP820Registry eip820Registry = EIP820Registry(0xe75033c04a3f6a7e018a4d281cb87e016270c4b5);
 
     function setInterfaceImplementation(string ifaceLabel, address impl) internal {
