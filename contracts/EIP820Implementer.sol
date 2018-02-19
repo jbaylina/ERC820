@@ -1,10 +1,14 @@
 pragma solidity ^0.4.18;
 
-import "./EIP820Registry.sol";
-
+contract EIP820Registry {
+    function getManager(address addr) public view returns(address);
+    function setManager(address addr, address newManager) public;
+    function getInterfaceImplementer(address addr, bytes32 iHash) public constant returns (address);
+    function setInterfaceImplementer(address addr, bytes32 iHash, address implementer) public;
+}
 
 contract EIP820Implementer {
-    EIP820Registry eip820Registry = EIP820Registry(0x9aA513f1294c8f1B254bA1188991B4cc2EFE1D3B);
+    EIP820Registry eip820Registry = EIP820Registry(0x4b3b1c4850EEB21ee224f05a2C27F9F3CB620f6a);
 
     function setInterfaceImplementation(string ifaceLabel, address impl) internal {
         bytes32 ifaceHash = keccak256(ifaceLabel);
@@ -19,5 +23,4 @@ contract EIP820Implementer {
     function delegateManagement(address newManager) internal {
         eip820Registry.setManager(this, newManager);
     }
-
 }

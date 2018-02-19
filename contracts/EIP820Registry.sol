@@ -1,4 +1,4 @@
-pragma solidity 0.4.19;
+pragma solidity 0.4.20;
 
 contract EIP820ImplementerInterface {
     /// @notice Contracts that implement an interferce in behalf of another contract must return true
@@ -49,7 +49,7 @@ contract EIP820Registry {
     /// @param addr Address that is being queried for the implementation of an interface
     /// @param iHash SHA3 of the name of the interface as a string
     ///  Example `web3.utils.sha3('Ierc777`')`
-    /// @return The address of the contract that implements a speficic interface
+    /// @return The address of the contract that implements a specific interface
     ///  or 0x0 if `addr` does not implement this interface
     function getInterfaceImplementer(address addr, bytes32 iHash) public constant returns (address) {
         return interfaces[addr][iHash];
