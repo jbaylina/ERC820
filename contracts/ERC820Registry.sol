@@ -58,7 +58,7 @@ contract ERC820Registry {
     ///  Example `web3.utils.sha3('ERC777Token`')`
     /// @return The address of the contract that implements a specific interface
     ///  or 0x0 if `addr` does not implement this interface
-    function getInterfaceImplementer(address addr, bytes32 iHash) public returns (address) {
+    function getInterfaceImplementer(address addr, bytes32 iHash) constant public returns (address) {
         if (isERC165Interface(iHash)) {
             bytes4 i165Hash = bytes4(iHash);
             return erc165InterfaceSupported(addr, i165Hash) ? addr : 0;
@@ -87,7 +87,7 @@ contract ERC820Registry {
         return iHash & 0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF == 0;
     }
 
-    function erc165InterfaceSupported(address _contract, bytes4 _interfaceId) public returns (bool) {
+    function erc165InterfaceSupported(address _contract, bytes4 _interfaceId) constant public returns (bool) {
         if (!erc165Cache[_contract][_interfaceId]) {
             erc165UpdateCache(_contract, _interfaceId);
         }
