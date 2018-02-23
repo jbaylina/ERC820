@@ -123,6 +123,7 @@ describe('EIP165 Compatibility Test', () => {
 
     it('shold be compatible with erc820', async () => {
         const g1 = await erc820Registry.$contract.methods.getInterfaceImplementer(lisa.$address, Simpson_Id).estimateGas();
+//        console.log(g1);
         const a = await erc820Registry.getInterfaceImplementer(lisa.$address, Simpson_Id);
         assert.equal(a, lisa.$address);
         const nc = await erc820Registry.getInterfaceImplementer(lisa.$address, Invalid_Id);
@@ -132,5 +133,6 @@ describe('EIP165 Compatibility Test', () => {
         await erc820Registry.erc165UpdateCache(lisa.$address, Simpson_Id);
         const g2 = await erc820Registry.$contract.methods.getInterfaceImplementer(lisa.$address, Simpson_Id).estimateGas();
         assert(g2<g1/2);  // It is much lower the gas after caching!
+//        console.log(g2 );
     });
 });
