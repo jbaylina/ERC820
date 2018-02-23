@@ -1,6 +1,6 @@
 pragma solidity ^0.4.18;
 
-contract EIP820ImplementerInterface {
+contract ERC820ImplementerInterface {
     /// @notice Contracts that implement an interferce in behalf of another contract must return true
     /// @param addr Address that the contract woll implement the interface in behalf of
     /// @param interfaceHash keccak256 of the name of the interface

@@ -38,16 +38,16 @@
   },
   "homepage": "https://github.com/jbaylina/eip672",
   "dependencies": {
-    "eth-contract-class": "0.0.7",
+    "eth-contract-class": "0.0.8",
     "ethereumjs-tx": "^1.3.3",
     "ethereumjs-util": "^5.1.3",
     "lerna": "^2.5.1",
-    "web3": "^1.0.0-beta.26"
+    "web3": "^1.0.0-beta.29"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "ethereumjs-testrpc": "git://github.com/jbaylina/testrpc.git",
+    "ganache-cli": "^7.0.0-beta.0",
     "mocha": "^4.1.0",
-    "solcpiler": "0.0.10"
+    "solcpiler": "0.0.17"
   }
 }

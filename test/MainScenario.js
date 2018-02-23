@@ -1,20 +1,20 @@
-const TestRPC = require('ethereumjs-testrpc');
+const TestRPC = require('ganache-cli');
 const Web3 = require('web3');
 const chai = require('chai');
-const EIP820 = require('../index.js');
-const ExampleImplementer = require("../js/ExampleImplementer.js");
-const ExampleImplementer2 = require("../js/ExampleImplementer2.js");
+const ERC820 = require('../index.js');
+const ExampleImplementer = require("../build/contracts").ExampleImplementer;
+const ExampleImplementer2 = require("../build/contracts").ExampleImplementer2;
 
 const assert = chai.assert;
 const { utils } = Web3;
 const log = (msg) => { if (process.env.MOCHA_VERBOSE) console.log(msg); };
 const blocks = [];
 
-describe('EIP820 Test', () => {
+describe('ERC820 Test', () => {
     let testrpc;
     let web3;
     let accounts;
-    let eip820Registry;
+    let erc820Registry;
     let addr;
     let proxy;
     let implementer;
@@ -39,14 +39,12 @@ describe('EIP820 Test', () => {
         manager2 = accounts[3];
     });
 
-    after(async () => {
-        await testrpc.close();
-    });
+    after(async () => testrpc.close());
 
-    it('should deploy EIP820', async () => {
-        eip820Registry = await EIP820.deploy(web3, accounts[0]);
-        assert.ok(eip820Registry.$address);
-        log(eip820Registry.$address);
+    it('should deploy ERC820', async () => {
+        erc820Registry = await ERC820.deploy(web3, accounts[0]);
+        assert.ok(erc820Registry.$address);
+        log(erc820Registry.$address);
     }).timeout(20000);
 
     it('should deploy implementer', async () => {
@@ -60,72 +58,64 @@ describe('EIP820 Test', () => {
     }).timeout(20000);
 
     it('should set an address', async () => {
-        interfaceHash = await eip820Registry.interfaceHash("IExampleInterface");
+        interfaceHash = await erc820Registry.interfaceHash("IExampleInterface");
         assert.equal(interfaceHash, web3.utils.sha3("IExampleInterface"));
-        await eip820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: addr});
-        const rImplementer = await eip820Registry.getInterfaceImplementer(addr, interfaceHash);
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: addr});
+        const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
         assert.equal(rImplementer, implementer.$address);
     }).timeout(6000);
 
     it('should change manager', async () => {
-        await eip820Registry.setManager(addr, manager1, {from: addr});
-        const rManager1 = await eip820Registry.getManager(addr);
+        await erc820Registry.setManager(addr, manager1, {from: addr});
+        const rManager1 = await erc820Registry.getManager(addr);
         assert.equal(rManager1, manager1);
     }).timeout(6000);
 
     it('manager should remove interface', async() => {
-        await eip820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager1, gas: 200000});
-        const rImplementer = await eip820Registry.getInterfaceImplementer(addr, interfaceHash);
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager1, gas: 200000});
+        const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
         assert.equal(rImplementer, "0x0000000000000000000000000000000000000000");
     }).timeout(6000);
 
     it('address should change back the interface', async() => {
-        await eip820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: manager1});
-        const rImplementer = await eip820Registry.getInterfaceImplementer(addr, interfaceHash);
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: manager1});
+        const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
         assert.equal(rImplementer, implementer.$address);
     }).timeout(6000);
 
     it('manager should change manager', async() => {
-        await eip820Registry.setManager(addr, manager2, {from: manager1});
-        const rManager2 = await eip820Registry.getManager(addr);
+        await erc820Registry.setManager(addr, manager2, {from: manager1});
+        const rManager2 = await erc820Registry.getManager(addr);
         assert.equal(rManager2, manager2);
     }).timeout(6000);
 
     it('address should remove interface', async() => {
-        await eip820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000});
-        const rImplementer = await eip820Registry.getInterfaceImplementer(addr, interfaceHash);
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000});
+        const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
         assert.equal(rImplementer, "0x0000000000000000000000000000000000000000");
     }).timeout(6000);
 
     it('Should not allow to set an interface an ivalid contract', async() => {
         let errorDetected;
-        try {
-            await eip820Registry.setInterfaceImplementer(addr, interfaceHash, eip820Registry.$address, {from: manager2, gas: 200000});
-        } catch(e) {
-            errorDetected = true;
-        }
-        assert(errorDetected, "Error not detected when seting an invalid contract");
+        const tx = await erc820Registry.setInterfaceImplementer(addr, interfaceHash, erc820Registry.$address, {from: manager2, gas: 200000});
+        assert.equal("0x00", tx.status)
     }).timeout(6000);
 
     it('manager should set back interface', async() => {
-        await eip820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: manager2, gas: 200000});
-        const rImplementer = await eip820Registry.getInterfaceImplementer(addr, interfaceHash);
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: manager2, gas: 200000});
+        const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
         assert.equal(rImplementer, implementer.$address);
     }).timeout(6000);
 
     it('address should remove manager', async() => {
-        await eip820Registry.setManager(addr, 0, {from: manager2, gas: 200000});
-        const rManager = await eip820Registry.getManager(addr);
+        await erc820Registry.setManager(addr, 0, {from: manager2, gas: 200000});
+        const rManager = await erc820Registry.getManager(addr);
         assert.equal(rManager, addr);
     }).timeout(6000);
 
     it('manager should not be able to change interface', async() => {
         let errorDetected;
-        try {
-            await eip820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000});
-        } catch(e) {
-            errorDetected = true;
-        }
-        assert(errorDetected, "Error not detected");
+        const tx = await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000});
+        assert.equal("0x00", tx.status);
     }).timeout(6000);
 });
