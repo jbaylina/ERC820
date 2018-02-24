@@ -1,17 +1,19 @@
 pragma solidity 0.4.20;
 
-contract ERC820ImplementerInterface {
+interface ERC820ImplementerInterface {
     /// @notice Contracts that implement an interferce in behalf of another contract must return true
     /// @param addr Address that the contract woll implement the interface in behalf of
     /// @param interfaceHash keccak256 of the name of the interface
-    /// @return true if the contract can implement the interface represented by
+    /// @return ERC820_ACCEPT_MAGIC if the contract can implement the interface represented by
     ///  `ìnterfaceHash` in behalf of `addr`
-    function canImplementInterfaceForAddress(address addr, bytes32 interfaceHash) view public returns(bool);
+    function canImplementInterfaceForAddress(address addr, bytes32 interfaceHash) view public returns(bytes32);
 }
 
 contract ERC820Registry {
     bytes4 constant InvalidID = 0xffffffff;
     bytes4 constant ERC165ID = 0x01ffc9a7;
+    bytes32 constant ERC820_ACCEPT_MAGIC = keccak256("ERC820_ACCEPT_MAGIC");
+
 
     mapping (address => mapping(bytes32 => address)) interfaces;
     mapping (address => address) managers;
@@ -74,7 +76,8 @@ contract ERC820Registry {
     function setInterfaceImplementer(address addr, bytes32 iHash, address implementer) public canManage(addr)  {
         require(!isERC165Interface(iHash));
         if ((implementer != 0) && (implementer!=msg.sender)) {
-            require(ERC820ImplementerInterface(implementer).canImplementInterfaceForAddress(addr, iHash));
+            require(ERC820ImplementerInterface(implementer).canImplementInterfaceForAddress(addr, iHash)
+                        == ERC820_ACCEPT_MAGIC);
         }
         interfaces[addr][iHash] = implementer;
         InterfaceImplementerSet(addr, iHash, implementer);
@@ -133,7 +136,7 @@ contract ERC820Registry {
                                     30000,         // 30k gas
                                     _contract,     // To addr
                                     x,             // Inputs are stored at location x
-                                    0x20,          // Inputs are 32 bytes long
+                                    0x08,          // Inputs are 8 bytes long
                                     x,             // Store output over input (saves space)
                                     0x20)          // Outputs are 32 bytes long
 

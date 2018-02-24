@@ -58,8 +58,8 @@ describe('ERC820 Test', () => {
     }).timeout(20000);
 
     it('should set an address', async () => {
-        interfaceHash = await erc820Registry.interfaceHash("IExampleInterface");
-        assert.equal(interfaceHash, web3.utils.sha3("IExampleInterface"));
+        interfaceHash = await erc820Registry.interfaceHash("ERC820ExampleImplementer2");
+        assert.equal(interfaceHash, web3.utils.sha3("ERC820ExampleImplementer2"));
         await erc820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: addr});
         const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
         assert.equal(rImplementer, implementer.$address);
