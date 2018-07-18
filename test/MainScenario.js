@@ -66,7 +66,7 @@ describe('ERC820 Test', () => {
     }).timeout(6000);
 
     it('should change manager', async () => {
-        await erc820Registry.setManager(addr, manager1, {from: addr});
+        await erc820Registry.setManager("0x0000000000000000000000000000000000000000", manager1, {from: addr});
         const rManager1 = await erc820Registry.getManager(addr);
         assert.equal(rManager1, manager1);
     }).timeout(6000);

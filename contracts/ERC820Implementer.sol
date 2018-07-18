@@ -8,7 +8,7 @@ contract ERC820Registry {
 }
 
 contract ERC820Implementer {
-    ERC820Registry erc820Registry = ERC820Registry(0x991a1bcb077599290d7305493c9A630c20f8b798);
+    ERC820Registry erc820Registry = ERC820Registry(0xbe78655dff872d22b95ae366fb3477d977328ade);
 
     function setInterfaceImplementation(string ifaceLabel, address impl) internal {
         bytes32 ifaceHash = keccak256(ifaceLabel);

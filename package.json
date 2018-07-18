@@ -1,6 +1,6 @@
 {
   "name": "eip820",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "EIP 820 - Pseudo-introspaection using a registry contract",
   "main": "index.js",
   "files": [
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "test": "npm run build; mocha --harmony --exit",
-    "sol-compile": "solcpiler -i './contracts/*.sol' --solc-version=\"v0.4.20+commit.3155dd80\"",
+    "sol-compile": "solcpiler -i './contracts/*.sol' --solc-version=\"v0.4.24+commit.e67f0147\"",
     "build": "npm run sol-compile",
     "prepublish": "npm run build"
   },
