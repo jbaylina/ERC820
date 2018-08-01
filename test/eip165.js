@@ -61,7 +61,7 @@ describe('EIP165 Compatibility Test', () => {
     it('shold return noInterface for LegacyNoCB', async () => {
         const c = await LegacyNoCB.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.erc165InterfaceSupported_NoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
         assert.equal(r, false);
     });
 
@@ -69,21 +69,21 @@ describe('EIP165 Compatibility Test', () => {
     it('shold return noInterface for LegacyCBNoReturn', async () => {
         const c = await LegacyCBNoReturn.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.erc165InterfaceSupported_NoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
         assert.equal(r, false);
     });
 
     it('shold return noInterface for LegacyCBReturnTrue', async () => {
         const c = await LegacyCBReturnTrue.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.erc165InterfaceSupported_NoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
         assert.equal(r, false);
     });
 
     it('shold return noInterface for LegacyCBReturnFalse', async () => {
         const c = await LegacyCBReturnFalse.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.erc165InterfaceSupported_NoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
         assert.equal(r, false);
     });
 
@@ -96,11 +96,11 @@ describe('EIP165 Compatibility Test', () => {
         assert.equal(r2, false);
         const r3 = await lisa.supportsInterface(Simpson_Id);
         assert.equal(r3, true);
-        const r4 = await erc820Registry.erc165InterfaceSupported_NoCache(lisa.$address, ERC165_Id);
+        const r4 = await erc820Registry.implementsERC165InterfaceNoCache(lisa.$address, ERC165_Id);
         assert.equal(r4, true);
-        const r5 = await erc820Registry.erc165InterfaceSupported_NoCache(lisa.$address, Invalid_Id);
+        const r5 = await erc820Registry.implementsERC165InterfaceNoCache(lisa.$address, Invalid_Id);
         assert.equal(r5, false);
-        const r6 = await erc820Registry.erc165InterfaceSupported_NoCache(lisa.$address, Simpson_Id);
+        const r6 = await erc820Registry.implementsERC165InterfaceNoCache(lisa.$address, Simpson_Id);
         assert.equal(r6, true);
     });
 
@@ -113,11 +113,11 @@ describe('EIP165 Compatibility Test', () => {
         assert.equal(r2, false);
         const r3 = await lisa.supportsInterface(Simpson_Id);
         assert.equal(r3, true);
-        const r4 = await erc820Registry.erc165InterfaceSupported_NoCache(lisa.$address, ERC165_Id);
+        const r4 = await erc820Registry.implementsERC165InterfaceNoCache(lisa.$address, ERC165_Id);
         assert.equal(r4, true);
-        const r5 = await erc820Registry.erc165InterfaceSupported_NoCache(lisa.$address, Invalid_Id);
+        const r5 = await erc820Registry.implementsERC165InterfaceNoCache(lisa.$address, Invalid_Id);
         assert.equal(r5, false);
-        const r6 = await erc820Registry.erc165InterfaceSupported_NoCache(lisa.$address, Simpson_Id);
+        const r6 = await erc820Registry.implementsERC165InterfaceNoCache(lisa.$address, Simpson_Id);
         assert.equal(r6, true);
     });
 
@@ -130,7 +130,7 @@ describe('EIP165 Compatibility Test', () => {
         assert.equal(nc, "0x0000000000000000000000000000000000000000");
         const b = await erc820Registry.getInterfaceImplementer(lisa.$address, ERC165_Id);
         assert.equal(b, lisa.$address);
-        await erc820Registry.erc165UpdateCache(lisa.$address, Simpson_Id);
+        await erc820Registry.updateERC165Cache(lisa.$address, Simpson_Id);
         const g2 = await erc820Registry.$contract.methods.getInterfaceImplementer(lisa.$address, Simpson_Id).estimateGas();
         assert(g2<g1/2);  // It is much lower the gas after caching!
 //        console.log(g2 );

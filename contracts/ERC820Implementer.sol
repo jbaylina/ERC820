@@ -1,26 +1,26 @@
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.24;
 
 contract ERC820Registry {
-    function getManager(address addr) public view returns(address);
-    function setManager(address addr, address newManager) public;
-    function getInterfaceImplementer(address addr, bytes32 iHash) public constant returns (address);
-    function setInterfaceImplementer(address addr, bytes32 iHash, address implementer) public;
+    function getManager(address _addr) public view returns(address);
+    function setManager(address _addr, address _newManager) external;
+    function getInterfaceImplementer(address _addr, bytes32 _interfaceHash) external view returns (address);
+    function setInterfaceImplementer(address _addr, bytes32 _interfaceHash, address _implementer) external;
 }
 
 contract ERC820Implementer {
-    ERC820Registry erc820Registry = ERC820Registry(0xbe78655dff872d22b95ae366fb3477d977328ade);
+    ERC820Registry erc820Registry = ERC820Registry(0xa691627805d5FAE718381ED95E04d00E20a1fea6);
 
-    function setInterfaceImplementation(string ifaceLabel, address impl) internal {
-        bytes32 ifaceHash = keccak256(ifaceLabel);
-        erc820Registry.setInterfaceImplementer(this, ifaceHash, impl);
+    function setInterfaceImplementation(string _interfaceLabel, address impl) internal {
+        bytes32 interfaceHash = keccak256(abi.encodePacked(_interfaceLabel));
+        erc820Registry.setInterfaceImplementer(this, interfaceHash, impl);
     }
 
-    function interfaceAddr(address addr, string ifaceLabel) internal constant returns(address) {
-        bytes32 ifaceHash = keccak256(ifaceLabel);
-        return erc820Registry.getInterfaceImplementer(addr, ifaceHash);
+    function interfaceAddr(address addr, string _interfaceLabel) internal constant returns(address) {
+        bytes32 interfaceHash = keccak256(abi.encodePacked(_interfaceLabel));
+        return erc820Registry.getInterfaceImplementer(addr, interfaceHash);
     }
 
-    function delegateManagement(address newManager) internal {
-        erc820Registry.setManager(this, newManager);
+    function delegateManagement(address _newManager) internal {
+        erc820Registry.setManager(this, _newManager);
     }
 }
