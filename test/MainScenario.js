@@ -95,8 +95,7 @@ describe('ERC820 Test', () => {
         assert.equal(rImplementer, "0x0000000000000000000000000000000000000000");
     }).timeout(6000);
 
-    it('Should not allow to set an interface an ivalid contract', async() => {
-        let errorDetected;
+    it('Should not allow to set an interface an invalid contract', async() => {
         const tx = await erc820Registry.setInterfaceImplementer(addr, interfaceHash, erc820Registry.$address, {from: manager2, gas: 200000});
         assert.equal("0x00", tx.status)
     }).timeout(6000);
