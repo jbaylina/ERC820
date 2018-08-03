@@ -6,6 +6,7 @@ const ExampleImplementer = require("../build/contracts").ExampleImplementer;
 const ExampleImplementer2 = require("../build/contracts").ExampleImplementer2;
 
 const assert = chai.assert;
+chai.use(require('chai-as-promised')).should();
 const { utils } = Web3;
 const log = (msg) => { if (process.env.MOCHA_VERBOSE) console.log(msg); };
 const blocks = [];
@@ -96,8 +97,8 @@ describe('ERC820 Test', () => {
     }).timeout(6000);
 
     it('Should not allow to set an interface an invalid contract', async() => {
-        const tx = await erc820Registry.setInterfaceImplementer(addr, interfaceHash, erc820Registry.$address, {from: manager2, gas: 200000});
-        assert.equal("0x00", tx.status)
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, erc820Registry.$address, {from: manager2, gas: 200000})
+          .should.be.rejectedWith('revert');
     }).timeout(6000);
 
     it('manager should set back interface', async() => {
@@ -113,8 +114,7 @@ describe('ERC820 Test', () => {
     }).timeout(6000);
 
     it('manager should not be able to change interface', async() => {
-        let errorDetected;
-        const tx = await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000});
-        assert.equal("0x00", tx.status);
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000})
+          .should.be.rejectedWith('revert');
     }).timeout(6000);
 });
