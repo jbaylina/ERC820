@@ -1,7 +1,7 @@
 {
-  "name": "eip820",
+  "name": "erc820",
   "version": "0.0.21",
-  "description": "EIP 820 - Pseudo-introspaection using a registry contract",
+  "description": "ERC 820 - Pseudo-introspaection using a registry contract",
   "main": "index.js",
   "files": [
     "build",
@@ -19,13 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jbaylina/eip820.git"
+    "url": "https://github.com/jbaylina/ERC820.git"
   },
   "keywords": [
     "solidity",
     "pseudo-introspaection",
-    "eip672",
-    "eip820",
+    "ERC672",
+    "ERC820",
+    "ERC777",
     "smart",
     "contract",
     "reverseENS",
@@ -34,7 +35,7 @@
   "author": "Jordi Baylina",
   "license": "GPL-3.0",
   "bugs": {
-    "url": "https://github.com/jbaylina/eip820/issues"
+    "url": "https://github.com/jbaylina/ERC820/issues"
   },
   "homepage": "https://eips.ethereum.org/EIPS/eip-820",
   "dependencies": {

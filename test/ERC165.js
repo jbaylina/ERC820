@@ -19,7 +19,7 @@ const ERC165_Id = "0x01ffc9a7";
 const Invalid_Id = "0xffffffff";
 const Simpson_Id = "0x73B6B492";
 
-describe('EIP165 Compatibility Test', () => {
+describe('ERC165 Compatibility Test', () => {
     let testrpc;
     let web3;
     let accounts;
@@ -87,7 +87,7 @@ describe('EIP165 Compatibility Test', () => {
         assert.equal(r, false);
     });
 
-    it('should return true on a good impl of eip165 Lisa', async () => {
+    it('should return true on a good impl of ERC165 Lisa', async () => {
         lisa = await Lisa.new(web3);
         assert.ok(lisa.$address);
         const r1 = await lisa.supportsInterface(ERC165_Id);
@@ -104,7 +104,7 @@ describe('EIP165 Compatibility Test', () => {
         assert.equal(r6, true);
     });
 
-    it('should return true on a good impl of eip165 Homer', async () => {
+    it('should return true on a good impl of ERC165 Homer', async () => {
         homer = await Homer.new(web3);
         assert.ok(lisa.$address);
         const r1 = await lisa.supportsInterface(ERC165_Id);
@@ -121,7 +121,7 @@ describe('EIP165 Compatibility Test', () => {
         assert.equal(r6, true);
     });
 
-    it('shold be compatible with erc820', async () => {
+    it('shold be compatible with ERC820', async () => {
         const g1 = await erc820Registry.$contract.methods.getInterfaceImplementer(lisa.$address, Simpson_Id).estimateGas();
 //        console.log(g1);
         const a = await erc820Registry.getInterfaceImplementer(lisa.$address, Simpson_Id);
