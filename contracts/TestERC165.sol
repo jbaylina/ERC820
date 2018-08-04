@@ -5,7 +5,7 @@ contract LegacyNoCB {
 }
 
 contract LegacyCBNoReturn {
-    function() {
+    function () public {
     }
 }
 
@@ -41,7 +41,7 @@ contract ERC165MappingImplementation is ERC165 {
     /// @dev You must not set element 0xffffffff to true
     mapping(bytes4 => bool) internal supportedInterfaces;
 
-    function ERC165MappingImplementation() internal {
+    constructor() internal {
         supportedInterfaces[this.supportsInterface.selector] = true;
     }
 
@@ -56,7 +56,7 @@ interface Simpson {
 }
 
 contract Lisa is ERC165MappingImplementation, Simpson {
-    function Lisa() public {
+    constructor() public {
         supportedInterfaces[this.is2D.selector ^ this.skinColor.selector] = true;
     }
 
