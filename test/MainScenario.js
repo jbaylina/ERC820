@@ -2,8 +2,8 @@ const TestRPC = require('ganache-cli');
 const Web3 = require('web3');
 const chai = require('chai');
 const ERC820 = require('../index.js');
-const ExampleImplementer = require("../build/contracts").ExampleImplementer;
-const ExampleImplementer2 = require("../build/contracts").ExampleImplementer2;
+const ExampleImplementer = require("../artifacts/contracts").ExampleImplementer;
+const ExampleImplementer2 = require("../artifacts/contracts").ExampleImplementer2;
 
 const assert = chai.assert;
 chai.use(require('chai-as-promised')).should();

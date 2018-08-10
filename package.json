@@ -4,6 +4,7 @@
   "description": "ERC 820 - Pseudo-introspaection using a registry contract",
   "main": "index.js",
   "files": [
+    "artifacts",
     "build",
     "js",
     "contracts"
@@ -50,6 +51,6 @@
     "chai-as-promised": "7.1.1",
     "ganache-cli": "7.0.0-beta.0",
     "mocha": "4.1.0",
-    "solcpiler": "0.0.17"
+    "solcpiler": "1.0.0-beta.9"
   }
 }

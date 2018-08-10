@@ -1,8 +1,8 @@
 const EthereumTx = require('ethereumjs-tx');
 const EthereumUtils = require('ethereumjs-util');
 
-const code = require('../build/ERC820Registry.sol').ERC820RegistryByteCode;
-const ERC820Registry = require('../build/contracts').ERC820Registry;
+const code = '0x' + require('../artifacts/ERC820Registry.json').compilerOutput.evm.bytecode.object;
+const ERC820Registry = require('../artifacts/contracts').ERC820Registry;
 
 generateDeployTx = () => {
     const rawTx = {
