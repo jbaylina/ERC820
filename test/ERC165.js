@@ -58,7 +58,7 @@ describe('ERC165 Compatibility Test', () => {
         log(erc820Registry.$address);
     }).timeout(20000);
 
-    it('shold return noInterface for LegacyNoCB', async () => {
+    it('should return noInterface for LegacyNoCB', async () => {
         const c = await LegacyNoCB.new(web3);
         assert.ok(c.$address);
         const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
@@ -66,21 +66,21 @@ describe('ERC165 Compatibility Test', () => {
     });
 
 
-    it('shold return noInterface for LegacyCBNoReturn', async () => {
+    it('should return noInterface for LegacyCBNoReturn', async () => {
         const c = await LegacyCBNoReturn.new(web3);
         assert.ok(c.$address);
         const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
         assert.equal(r, false);
     });
 
-    it('shold return noInterface for LegacyCBReturnTrue', async () => {
+    it('should return noInterface for LegacyCBReturnTrue', async () => {
         const c = await LegacyCBReturnTrue.new(web3);
         assert.ok(c.$address);
         const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
         assert.equal(r, false);
     });
 
-    it('shold return noInterface for LegacyCBReturnFalse', async () => {
+    it('should return noInterface for LegacyCBReturnFalse', async () => {
         const c = await LegacyCBReturnFalse.new(web3);
         assert.ok(c.$address);
         const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
@@ -121,7 +121,7 @@ describe('ERC165 Compatibility Test', () => {
         assert.equal(r6, true);
     });
 
-    it('shold be compatible with ERC820', async () => {
+    it('should be compatible with ERC820', async () => {
         const g1 = await erc820Registry.$contract.methods.getInterfaceImplementer(lisa.$address, Simpson_Id).estimateGas();
 //        console.log(g1);
         const a = await erc820Registry.getInterfaceImplementer(lisa.$address, Simpson_Id);
