@@ -1,6 +1,6 @@
 pragma solidity 0.4.24;
 // IV is a simply value to have a "nice" address for the registry, starting with `0x820`.
-// IV: 7280
+// IV: 12302
 
 /// @dev The interface a contract MUST implement if it is the implementer of
 /// some interface for any address other than itself.
