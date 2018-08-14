@@ -1,6 +1,32 @@
+/* ERC820: Pseudo-introspection Registry Contract
+ * by Jordi Baylina and Jacques Dafflon
+ *
+ * To the extent possible under law, Jordi Baylina and Jacques Dafflon who
+ * associated CC0 with the ERC820: Pseudo-introspection Registry Contract have
+ * waived all copyright and related or neighboring rights to the
+ * ERC820: Pseudo-introspection Registry Contract.
+ *
+ * You should have received a copy of the CC0 legalcode along with this work.
+ * If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+ *
+ *    ███████╗██████╗  ██████╗ █████╗ ██████╗  ██████╗
+ *    ██╔════╝██╔══██╗██╔════╝██╔══██╗╚════██╗██╔═████╗
+ *    █████╗  ██████╔╝██║     ╚█████╔╝ █████╔╝██║██╔██║
+ *    ██╔══╝  ██╔══██╗██║     ██╔══██╗██╔═══╝ ████╔╝██║
+ *    ███████╗██║  ██║╚██████╗╚█████╔╝███████╗╚██████╔╝
+ *    ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚════╝ ╚══════╝ ╚═════╝
+ *
+ *    ██████╗ ███████╗ ██████╗ ██╗███████╗████████╗██████╗ ██╗   ██╗
+ *    ██╔══██╗██╔════╝██╔════╝ ██║██╔════╝╚══██╔══╝██╔══██╗╚██╗ ██╔╝
+ *    ██████╔╝█████╗  ██║  ███╗██║███████╗   ██║   ██████╔╝ ╚████╔╝
+ *    ██╔══██╗██╔══╝  ██║   ██║██║╚════██║   ██║   ██╔══██╗  ╚██╔╝
+ *    ██║  ██║███████╗╚██████╔╝██║███████║   ██║   ██║  ██║   ██║
+ *    ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝   ╚═╝
+ *
+ */
 pragma solidity 0.4.24;
-// IV is a simply value to have a "nice" address for the registry, starting with `0x820`.
-// IV: 12302
+// IV is value needed to have a vanity address starting with `0x820`.
+// IV: 2479
 
 /// @dev The interface a contract MUST implement if it is the implementer of
 /// some interface for any address other than itself.
@@ -8,9 +34,10 @@ interface ERC820ImplementerInterface {
     /// @notice Indicates whether the contract implements the interface `interfaceHash` for the address `addr` or not.
     /// @param addr Address for which the contract will implement the interface
     /// @param interfaceHash keccak256 hash of the name of the interface
-    /// @return ERC820_ACCEPT_MAGIC only if the contract implements `ìnterfaceHash` for the address `addr`.
+    /// @return ERC820_ACCEPT_MAGIC only if the contract implements `interfaceHash` for the address `addr`.
     function canImplementInterfaceForAddress(address addr, bytes32 interfaceHash) public view returns(bytes32);
 }
+
 
 /// @title ERC820 Pseudo-introspection Registry Contract
 /// @author Jordi Baylina and Jacques Dafflon
