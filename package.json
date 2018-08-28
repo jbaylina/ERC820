@@ -17,6 +17,7 @@
     "sol-compile": "solcpiler -i './contracts/*.sol' --solc-version=\"v0.4.24+commit.e67f0147\" --output-artifacts-dir artifacts --insert-file-names imports",
     "clean": "rm -rf build artifacts",
     "build": "npm run clean && npm run sol-compile",
+    "info": "node js/info.js",
     "prepack": "npm run test"
   },
   "repository": {

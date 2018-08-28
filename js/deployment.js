@@ -1,21 +1,11 @@
 const EthereumTx = require('ethereumjs-tx');
 const EthereumUtils = require('ethereumjs-util');
 
-const code = '0x' + require('../artifacts/ERC820Registry.json').compilerOutput.evm.bytecode.object;
 const ERC820Registry = require('../artifacts/contracts').ERC820Registry;
+const rawTransaction = require('./rawTransaction');
 
 generateDeployTx = () => {
-    const rawTx = {
-        nonce: 0,
-        gasPrice: 100000000000,
-        gasLimit: 800000,
-        value: 0,
-        data: code,
-        v: 27,
-        r: '0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798',
-        s: '0x0aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
-    };
-    const tx = new EthereumTx(rawTx);
+    const tx = new EthereumTx(rawTransaction);
     const res = {
         sender: EthereumUtils.toChecksumAddress('0x' + tx.getSenderAddress().toString('hex')),
         rawTx: '0x' + tx.serialize().toString('hex'),

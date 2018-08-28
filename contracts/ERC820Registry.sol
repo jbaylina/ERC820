@@ -26,10 +26,10 @@
  */
 pragma solidity 0.4.24;
 // IV is value needed to have a vanity address starting with `0x820`.
-// IV: 2479
+// IV: 1200
 
 /// @dev The interface a contract MUST implement if it is the implementer of
-/// some interface for any address other than itself.
+/// some (other) interface for any address other than itself.
 interface ERC820ImplementerInterface {
     /// @notice Indicates whether the contract implements the interface `interfaceHash` for the address `addr` or not.
     /// @param addr Address for which the contract will implement the interface
@@ -48,7 +48,7 @@ contract ERC820Registry {
     bytes4 constant INVALID_ID = 0xffffffff;
     /// @notice Method ID for the ERC165 supportsInterface method (= `bytes4(keccak256('supportsInterface(bytes4)'))`).
     bytes4 constant ERC165ID = 0x01ffc9a7;
-    /// @notice Magic value which is returned if a contrct implements an interface on behalf of some other address.
+    /// @notice Magic value which is returned if a contract implements an interface on behalf of some other address.
     bytes32 constant ERC820_ACCEPT_MAGIC = keccak256(abi.encodePacked("ERC820_ACCEPT_MAGIC"));
 
     mapping (address => mapping(bytes32 => address)) interfaces;
@@ -145,7 +145,7 @@ contract ERC820Registry {
         return interfaces[_contract][_interfaceId] != 0;
     }
 
-    /// @notice Updates the cache with whether contract implements an ERC165 interface or not.
+    /// @notice Updates the cache with whether the contract implements an ERC165 interface or not.
     /// @param _contract Address of the contract for which to update the cache.
     /// @param _interfaceId ERC165 interface for which to update the cache.
     function updateERC165Cache(address _contract, bytes4 _interfaceId) public {
