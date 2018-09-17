@@ -61,7 +61,7 @@ describe('ERC165 Compatibility Test', () => {
     it('should return noInterface for LegacyNoCB', async () => {
         const c = await LegacyNoCB.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.$address, ERC165_Id);
         assert.equal(r, false);
     });
 
@@ -69,21 +69,21 @@ describe('ERC165 Compatibility Test', () => {
     it('should return noInterface for LegacyCBNoReturn', async () => {
         const c = await LegacyCBNoReturn.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.$address, ERC165_Id);
         assert.equal(r, false);
     });
 
     it('should return noInterface for LegacyCBReturnTrue', async () => {
         const c = await LegacyCBReturnTrue.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.$address, ERC165_Id);
         assert.equal(r, false);
     });
 
     it('should return noInterface for LegacyCBReturnFalse', async () => {
         const c = await LegacyCBReturnFalse.new(web3);
         assert.ok(c.$address);
-        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.address, ERC165_Id);
+        const r = await erc820Registry.implementsERC165InterfaceNoCache(c.$address, ERC165_Id);
         assert.equal(r, false);
     });
 

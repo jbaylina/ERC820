@@ -13,10 +13,11 @@
     "test": "test"
   },
   "scripts": {
+    "lint:sol": "npx solium --reporter pretty --dir contracts",
+    "build:sol": "solcpiler -i './contracts/*.sol' --solc-version=\"v0.4.24+commit.e67f0147\" --output-artifacts-dir artifacts --insert-file-names imports",
+    "build": "npm run clean && npm run build:sol",
     "test": "npm run build && mocha --harmony",
-    "sol-compile": "solcpiler -i './contracts/*.sol' --solc-version=\"v0.4.24+commit.e67f0147\" --output-artifacts-dir artifacts --insert-file-names imports",
     "clean": "rm -rf build artifacts",
-    "build": "npm run clean && npm run sol-compile",
     "info": "node js/info.js",
     "prepack": "npm run test"
   },
@@ -45,13 +46,14 @@
     "eth-contract-class": "0.0.12",
     "ethereumjs-tx": "1.3.3",
     "ethereumjs-util": "5.1.3",
-    "web3": "1.0.0-beta.35"
+    "web3": "1.0.0-beta.36"
   },
   "devDependencies": {
     "chai": "4.1.2",
     "chai-as-promised": "7.1.1",
-    "ganache-cli": "7.0.0-beta.0",
+    "ganache-cli": "6.1.8",
     "mocha": "4.1.0",
-    "solcpiler": "1.0.0-beta.9"
+    "solcpiler": "1.0.0-beta.9",
+    "solium": "^1.1.8"
   }
 }

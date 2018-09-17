@@ -3,13 +3,14 @@ const Web3 = require('web3');
 const chai = require('chai');
 const ERC820 = require('../index.js');
 const ExampleImplementer = require("../artifacts/contracts").ExampleImplementer;
-const ExampleImplementer2 = require("../artifacts/contracts").ExampleImplementer2;
+const ExampleClient = require("../artifacts/contracts").ExampleClient;
 
 const assert = chai.assert;
 chai.use(require('chai-as-promised')).should();
 const { utils } = Web3;
 const log = (msg) => { if (process.env.MOCHA_VERBOSE) console.log(msg); };
 const blocks = [];
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 describe('ERC820 Test', () => {
     let testrpc;
@@ -19,7 +20,7 @@ describe('ERC820 Test', () => {
     let addr;
     let proxy;
     let implementer;
-    let implementer2;
+    let client;
     let manager1;
     let manager2;
     let interfaceHash;
@@ -48,34 +49,34 @@ describe('ERC820 Test', () => {
         log(erc820Registry.$address);
     }).timeout(20000);
 
-    it('should deploy implementer', async () => {
+    it('should deploy the example implementer', async () => {
         implementer = await ExampleImplementer.new(web3);
         assert.ok(implementer.$address);
     }).timeout(20000);
 
-    it('should deploy implementer2', async () => {
-        implementer2 = await ExampleImplementer2.new(web3);
-        assert.ok(implementer2.$address);
+    it('should deploy the example client', async () => {
+        client = await ExampleClient.new(web3);
+        assert.ok(client.$address);
     }).timeout(20000);
 
     it('should set an address', async () => {
-        interfaceHash = await erc820Registry.interfaceHash("ERC820ExampleImplementer2");
-        assert.equal(interfaceHash, web3.utils.sha3("ERC820ExampleImplementer2"));
+        interfaceHash = await erc820Registry.interfaceHash("ERC820ExampleClient");
+        assert.equal(interfaceHash, web3.utils.sha3("ERC820ExampleClient"));
         await erc820Registry.setInterfaceImplementer(addr, interfaceHash, implementer.$address, {from: addr});
         const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
         assert.equal(rImplementer, implementer.$address);
     }).timeout(6000);
 
     it('should change manager', async () => {
-        await erc820Registry.setManager("0x0000000000000000000000000000000000000000", manager1, {from: addr});
+        await erc820Registry.setManager(ZERO_ADDRESS, manager1, {from: addr});
         const rManager1 = await erc820Registry.getManager(addr);
         assert.equal(rManager1, manager1);
     }).timeout(6000);
 
     it('manager should remove interface', async() => {
-        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager1, gas: 200000});
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, ZERO_ADDRESS, {from: manager1, gas: 200000});
         const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
-        assert.equal(rImplementer, "0x0000000000000000000000000000000000000000");
+        assert.equal(rImplementer, ZERO_ADDRESS);
     }).timeout(6000);
 
     it('address should change back the interface', async() => {
@@ -91,9 +92,9 @@ describe('ERC820 Test', () => {
     }).timeout(6000);
 
     it('address should remove interface', async() => {
-        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000});
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, ZERO_ADDRESS, {from: manager2, gas: 200000});
         const rImplementer = await erc820Registry.getInterfaceImplementer(addr, interfaceHash);
-        assert.equal(rImplementer, "0x0000000000000000000000000000000000000000");
+        assert.equal(rImplementer, ZERO_ADDRESS);
     }).timeout(6000);
 
     it('Should not allow to set an interface an invalid contract', async() => {
@@ -108,13 +109,13 @@ describe('ERC820 Test', () => {
     }).timeout(6000);
 
     it('address should remove manager', async() => {
-        await erc820Registry.setManager(addr, 0, {from: manager2, gas: 200000});
+        await erc820Registry.setManager(addr, ZERO_ADDRESS, {from: manager2, gas: 200000});
         const rManager = await erc820Registry.getManager(addr);
         assert.equal(rManager, addr);
     }).timeout(6000);
 
     it('manager should not be able to change interface', async() => {
-        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, 0, {from: manager2, gas: 200000})
+        await erc820Registry.setInterfaceImplementer(addr, interfaceHash, ZERO_ADDRESS, {from: manager2, gas: 200000})
           .should.be.rejectedWith('revert');
     }).timeout(6000);
 });

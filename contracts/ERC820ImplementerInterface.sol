@@ -1,5 +1,6 @@
 pragma solidity ^0.4.24;
 
+
 contract ERC820ImplementerInterface {
     bytes32 constant ERC820_ACCEPT_MAGIC = keccak256(abi.encodePacked("ERC820_ACCEPT_MAGIC"));
 
