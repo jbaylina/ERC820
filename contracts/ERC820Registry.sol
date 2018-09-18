@@ -26,7 +26,7 @@
  */
 pragma solidity 0.4.24;
 // IV is value needed to have a vanity address starting with `0x820`.
-// IV: 1200
+// IV: 2241
 
 /// @dev The interface a contract MUST implement if it is the implementer of
 /// some (other) interface for any address other than itself.
