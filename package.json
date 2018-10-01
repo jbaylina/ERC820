@@ -1,6 +1,6 @@
 {
   "name": "erc820",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "ERC 820 - Pseudo-introspaection using a registry contract",
   "main": "index.js",
   "files": [
