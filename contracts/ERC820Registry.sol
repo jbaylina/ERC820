@@ -1,13 +1,18 @@
-/* ERC820: Pseudo-introspection Registry Contract
- * by Jordi Baylina and Jacques Dafflon
+
+/* ERC820 Pseudo-introspection Registry Contract
+ * This standard defines a universal registry smart contract where any address
+ * (contract or regular account) can register which interface it supports and
+ * which smart contract is responsible for its implementation.
  *
- * To the extent possible under law, Jordi Baylina and Jacques Dafflon who
- * associated CC0 with the ERC820: Pseudo-introspection Registry Contract have
- * waived all copyright and related or neighboring rights to the
- * ERC820: Pseudo-introspection Registry Contract.
+ * Written in 2018 by Jordi Baylina and Jacques Dafflon
  *
- * You should have received a copy of the CC0 legalcode along with this work.
- * If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+ * To the extent possible under law, the author(s) have dedicated all copyright
+ * and related and neighboring rights to this software to the public domain
+ * worldwide. This software is distributed without any warranty.
+ *
+ * You should have received a copy of the CC0 Public Domain Dedication along
+ * with this software. If not, see
+ * <http://creativecommons.org/publicdomain/zero/1.0/>.
  *
  *    ███████╗██████╗  ██████╗ █████╗ ██████╗  ██████╗
  *    ██╔════╝██╔══██╗██╔════╝██╔══██╗╚════██╗██╔═████╗
@@ -26,16 +31,16 @@
  */
 pragma solidity 0.4.24;
 // IV is value needed to have a vanity address starting with `0x820`.
-// IV: 2241
+// IV: 15222
 
 /// @dev The interface a contract MUST implement if it is the implementer of
 /// some (other) interface for any address other than itself.
 interface ERC820ImplementerInterface {
     /// @notice Indicates whether the contract implements the interface `interfaceHash` for the address `addr` or not.
-    /// @param addr Address for which the contract will implement the interface
     /// @param interfaceHash keccak256 hash of the name of the interface
+    /// @param addr Address for which the contract will implement the interface
     /// @return ERC820_ACCEPT_MAGIC only if the contract implements `interfaceHash` for the address `addr`.
-    function canImplementInterfaceForAddress(address addr, bytes32 interfaceHash) public view returns(bytes32);
+    function canImplementInterfaceForAddress(bytes32 interfaceHash, address addr) external view returns(bytes32);
 }
 
 
@@ -90,7 +95,7 @@ contract ERC820Registry {
         if (_implementer != 0 && _implementer != msg.sender) {
             require(
                 ERC820ImplementerInterface(_implementer)
-                    .canImplementInterfaceForAddress(addr, _interfaceHash) == ERC820_ACCEPT_MAGIC,
+                    .canImplementInterfaceForAddress(_interfaceHash, addr) == ERC820_ACCEPT_MAGIC,
                 "Does not implement the interface"
             );
         }
@@ -100,13 +105,12 @@ contract ERC820Registry {
 
     /// @notice Sets the `_newManager` as manager for the `_addr` address.
     /// The new manager will be able to call `setInterfaceImplementer` for `_addr`.
-    /// @param _addr Address for which to set the new manager. (If `_addr == 0` then `msg.sender` is assumed.)
+    /// @param _addr Address for which to set the new manager.
     /// @param _newManager Address of the new manager for `addr`. (Pass `0x0` to reset the manager to `_addr` itself.)
     function setManager(address _addr, address _newManager) external {
-        address addr = _addr == 0 ? msg.sender : _addr;
-        require(getManager(addr) == msg.sender, "Not the manager");
-        managers[addr] = _newManager == addr ? 0 : _newManager;
-        emit ManagerChanged(addr, _newManager);
+        require(getManager(_addr) == msg.sender, "Not the manager");
+        managers[_addr] = _newManager == _addr ? 0 : _newManager;
+        emit ManagerChanged(_addr, _newManager);
     }
 
     /// @notice Get the manager of an address.
@@ -124,33 +128,31 @@ contract ERC820Registry {
     /// @notice Compute the keccak256 hash of an interface given its name.
     /// @param _interfaceName Name of the interface.
     /// @return The keccak256 hash of an interface name.
-    function interfaceHash(string _interfaceName) public pure returns(bytes32) {
+    function interfaceHash(string _interfaceName) external pure returns(bytes32) {
         return keccak256(abi.encodePacked(_interfaceName));
     }
 
     /* --- ERC165 Related Functions --- */
-
-    /// @notice Checks whether a contract implements an ERC165 interface or not.
-    /// The result is cached. If the cache is out of date, it must be updated by calling `updateERC165Cache`.
-    /// @param _contract Address of the contract to check.
-    /// @param _interfaceId ERC165 interface to check.
-    /// @return `true` if `_contract` implements `_interfaceId`, false otherwise.
-    /// @dev This function may modify the state when updating the cache. However, this function must have the `view`
-    /// modifier since `getInterfaceImplementer` also calls it. If called from within a transaction, the ERC165 cache
-    /// is updated.
-    function implementsERC165Interface(address _contract, bytes4 _interfaceId) public view returns (bool) {
-        if (!erc165Cached[_contract][_interfaceId]) {
-            updateERC165Cache(_contract, _interfaceId);
-        }
-        return interfaces[_contract][_interfaceId] != 0;
-    }
+    /* --- Developed in collaboration with William Entriken. --- */
 
     /// @notice Updates the cache with whether the contract implements an ERC165 interface or not.
     /// @param _contract Address of the contract for which to update the cache.
     /// @param _interfaceId ERC165 interface for which to update the cache.
-    function updateERC165Cache(address _contract, bytes4 _interfaceId) public {
+    function updateERC165Cache(address _contract, bytes4 _interfaceId) external {
         interfaces[_contract][_interfaceId] = implementsERC165InterfaceNoCache(_contract, _interfaceId) ? _contract : 0;
         erc165Cached[_contract][_interfaceId] = true;
+    }
+
+    /// @notice Checks whether a contract implements an ERC165 interface or not.
+    /// The result may be cached, if not a direct lookup is performed.
+    /// @param _contract Address of the contract to check.
+    /// @param _interfaceId ERC165 interface to check.
+    /// @return `true` if `_contract` implements `_interfaceId`, false otherwise.
+    function implementsERC165Interface(address _contract, bytes4 _interfaceId) public view returns (bool) {
+        if (!erc165Cached[_contract][_interfaceId]) {
+            return implementsERC165InterfaceNoCache(_contract, _interfaceId);
+        }
+        return interfaces[_contract][_interfaceId] == _contract;
     }
 
     /// @notice Checks whether a contract implements an ERC165 interface or not without using nor updating the cache.
@@ -185,6 +187,7 @@ contract ERC820Registry {
         return _interfaceHash & 0x00000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF == 0;
     }
 
+    /// @dev Make a call on a contract without throwing if the function does not exist.
     function noThrowCall(address _contract, bytes4 _interfaceId)
         internal view returns (uint256 success, uint256 result)
     {
@@ -192,7 +195,7 @@ contract ERC820Registry {
 
         assembly {
                 let x := mload(0x40)               // Find empty storage location using "free memory pointer"
-                mstore(x, erc165ID)                // Place signature at begining of empty storage
+                mstore(x, erc165ID)                // Place signature at beginning of empty storage
                 mstore(add(x, 0x04), _interfaceId) // Place first argument directly next to signature
 
                 success := staticcall(

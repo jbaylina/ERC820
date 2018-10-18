@@ -123,7 +123,6 @@ describe('ERC165 Compatibility Test', () => {
 
     it('should be compatible with ERC820', async () => {
         const g1 = await erc820Registry.$contract.methods.getInterfaceImplementer(lisa.$address, Simpson_Id).estimateGas();
-//        console.log(g1);
         const a = await erc820Registry.getInterfaceImplementer(lisa.$address, Simpson_Id);
         assert.equal(a, lisa.$address);
         const nc = await erc820Registry.getInterfaceImplementer(lisa.$address, Invalid_Id);
@@ -132,7 +131,6 @@ describe('ERC165 Compatibility Test', () => {
         assert.equal(b, lisa.$address);
         await erc820Registry.updateERC165Cache(lisa.$address, Simpson_Id);
         const g2 = await erc820Registry.$contract.methods.getInterfaceImplementer(lisa.$address, Simpson_Id).estimateGas();
-        assert(g2<g1/2);  // It is much lower the gas after caching!
-//        console.log(g2 );
+        assert(g2 < g1);  // Gas after caching is lower!
     });
 });

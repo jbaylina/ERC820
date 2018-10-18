@@ -53,6 +53,7 @@
     "chai-as-promised": "7.1.1",
     "ganache-cli": "6.1.8",
     "mocha": "4.1.0",
+    "solc": "0.4.24",
     "solcpiler": "1.0.0-beta.9",
     "solium": "^1.1.8"
   }

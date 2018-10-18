@@ -68,7 +68,7 @@ describe('ERC820 Test', () => {
     }).timeout(6000);
 
     it('should change manager', async () => {
-        await erc820Registry.setManager(ZERO_ADDRESS, manager1, {from: addr});
+        await erc820Registry.setManager(addr, manager1, {from: addr});
         const rManager1 = await erc820Registry.getManager(addr);
         assert.equal(rManager1, manager1);
     }).timeout(6000);
@@ -97,7 +97,7 @@ describe('ERC820 Test', () => {
         assert.equal(rImplementer, ZERO_ADDRESS);
     }).timeout(6000);
 
-    it('Should not allow to set an interface an invalid contract', async() => {
+    it('should not allow to set an invalid implementer for an address', async() => {
         await erc820Registry.setInterfaceImplementer(addr, interfaceHash, erc820Registry.$address, {from: manager2, gas: 200000})
           .should.be.rejectedWith('revert');
     }).timeout(6000);

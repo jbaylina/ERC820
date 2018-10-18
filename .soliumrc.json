@@ -13,7 +13,6 @@
     "deprecated-suicide": "error",
     "emit": "error",
     "error-reason": "error",
-    "function-order": "error",
     "function-whitespace": "error",
     "imports-on-top": "error",
     "lbrace": "error",
@@ -33,6 +32,7 @@
     "visibility-first": "error",
 
     "arg-overflow": "off",
+    "function-order": "off",
     "whitespace": "off"
   }
 }
