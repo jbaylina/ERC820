@@ -11,19 +11,19 @@ contract ERC820Registry {
 
 /// Base client to interact with the registry.
 contract ERC820Client {
-    ERC820Registry erc820Registry = ERC820Registry(0x820A8Cfd018b159837d50656c49d28983f18f33c);
+    ERC820Registry constant ERC820REGISTRY = ERC820Registry(0x820A8Cfd018b159837d50656c49d28983f18f33c);
 
     function setInterfaceImplementation(string _interfaceLabel, address _implementation) internal {
         bytes32 interfaceHash = keccak256(abi.encodePacked(_interfaceLabel));
-        erc820Registry.setInterfaceImplementer(this, interfaceHash, _implementation);
+        ERC820REGISTRY.setInterfaceImplementer(this, interfaceHash, _implementation);
     }
 
     function interfaceAddr(address addr, string _interfaceLabel) internal view returns(address) {
         bytes32 interfaceHash = keccak256(abi.encodePacked(_interfaceLabel));
-        return erc820Registry.getInterfaceImplementer(addr, interfaceHash);
+        return ERC820REGISTRY.getInterfaceImplementer(addr, interfaceHash);
     }
 
     function delegateManagement(address _newManager) internal {
-        erc820Registry.setManager(this, _newManager);
+        ERC820REGISTRY.setManager(this, _newManager);
     }
 }
