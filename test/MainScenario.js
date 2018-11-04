@@ -34,7 +34,7 @@ describe('ERC820 Test', () => {
 
         testrpc.listen(8546, '127.0.0.1');
 
-        web3 = new Web3('ws://localhost:8546');
+        web3 = new Web3('ws://127.0.0.1:8546');
         accounts = await web3.eth.getAccounts();
         addr = accounts[0];
         manager1 = accounts[2];
