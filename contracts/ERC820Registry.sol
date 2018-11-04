@@ -1,4 +1,3 @@
-
 /* ERC820 Pseudo-introspection Registry Contract
  * This standard defines a universal registry smart contract where any address
  * (contract or regular account) can register which interface it supports and
@@ -31,7 +30,7 @@
  */
 pragma solidity 0.4.24;
 // IV is value needed to have a vanity address starting with `0x820`.
-// IV: 15222
+// IV: 1974
 
 /// @dev The interface a contract MUST implement if it is the implementer of
 /// some (other) interface for any address other than itself.
