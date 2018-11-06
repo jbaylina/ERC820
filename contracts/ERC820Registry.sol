@@ -86,6 +86,7 @@ contract ERC820Registry {
     /// @param _addr Address to define the interface for. (If `_addr == 0` then `msg.sender` is assumed.)
     /// @param _interfaceHash keccak256 hash of the name of the interface as a string.
     /// For example, `web3.utils.keccak256('ERC777TokensRecipient')` for the `ERC777TokensRecipient` interface.
+    /// @param _implementer: Contract address implementing _interfaceHash for _addr.
     function setInterfaceImplementer(address _addr, bytes32 _interfaceHash, address _implementer) external {
         address addr = _addr == 0 ? msg.sender : _addr;
         require(getManager(addr) == msg.sender, "Not the manager");
@@ -105,7 +106,7 @@ contract ERC820Registry {
     /// @notice Sets the `_newManager` as manager for the `_addr` address.
     /// The new manager will be able to call `setInterfaceImplementer` for `_addr`.
     /// @param _addr Address for which to set the new manager.
-    /// @param _newManager Address of the new manager for `addr`. (Pass `0x0` to reset the manager to `_addr` itself.)
+    /// @param _newManager Address of the new manager for `addr`.
     function setManager(address _addr, address _newManager) external {
         require(getManager(_addr) == msg.sender, "Not the manager");
         managers[_addr] = _newManager == _addr ? 0 : _newManager;
