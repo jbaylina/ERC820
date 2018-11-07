@@ -11,7 +11,7 @@ contract ERC820Registry {
 
 /// Base client to interact with the registry.
 contract ERC820Client {
-    ERC820Registry constant ERC820REGISTRY = ERC820Registry(0x820Dd9AE49737695a0EA027670cB2E9cdc5d4E77);
+    ERC820Registry constant ERC820REGISTRY = ERC820Registry(0x820b586C8C28125366C998641B09DCbE7d4cBF06);
 
     function setInterfaceImplementation(string _interfaceLabel, address _implementation) internal {
         bytes32 interfaceHash = keccak256(abi.encodePacked(_interfaceLabel));

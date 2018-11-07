@@ -30,7 +30,7 @@
  */
 pragma solidity 0.4.24;
 // IV is value needed to have a vanity address starting with `0x820`.
-// IV: 1974
+// IV: 9513
 
 /// @dev The interface a contract MUST implement if it is the implementer of
 /// some (other) interface for any address other than itself.
@@ -86,7 +86,7 @@ contract ERC820Registry {
     /// @param _addr Address to define the interface for. (If `_addr == 0` then `msg.sender` is assumed.)
     /// @param _interfaceHash keccak256 hash of the name of the interface as a string.
     /// For example, `web3.utils.keccak256('ERC777TokensRecipient')` for the `ERC777TokensRecipient` interface.
-    /// @param _implementer: Contract address implementing _interfaceHash for _addr.
+    /// @param _implementer Contract address implementing _interfaceHash for _addr.
     function setInterfaceImplementer(address _addr, bytes32 _interfaceHash, address _implementer) external {
         address addr = _addr == 0 ? msg.sender : _addr;
         require(getManager(addr) == msg.sender, "Not the manager");
