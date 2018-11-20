@@ -46,6 +46,7 @@
     "eth-contract-class": "0.0.12",
     "ethereumjs-tx": "1.3.3",
     "ethereumjs-util": "5.1.3",
+    "globby": "^8.0.1",
     "web3": "1.0.0-beta.36"
   },
   "devDependencies": {
