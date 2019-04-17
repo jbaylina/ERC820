@@ -66,7 +66,7 @@ The vanity address of the registry---starting with `0x820`---has been generated 
 
 ## Authors
  - Jordi Baylina [@jbaylina][jbaylina]
- - Jacques Dafflon [@jacquesd][jacquesd]
+ - Jacques Dafflon [@0xjac][0xjac]
 
 ## License
 
@@ -81,6 +81,6 @@ The authors waive all copyright and related or neighboring rights for the rest o
 [`scripts/vanitygen.sh`]: https://github.com/jbaylina/erc820/blob/master/scripts/vanitygen.sh
 [`scripts/vanitygen-info.js`]: https://github.com/jbaylina/erc820/blob/master/scripts/vanitygen-info.js
 [jbaylina]: https://github.com/jbaylina
-[jacquesd]: https://github.com/jacquesd
+[0xjac]: https://github.com/0xjac
 [CC0]: http://creativecommons.org/publicdomain/zero/1.0/
 [LICENSE]: https://github.com/jbaylina/erc820/blob/master/LICENSE
